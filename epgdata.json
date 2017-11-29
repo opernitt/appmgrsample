@@ -1,0 +1,92 @@
+{
+    "epgdata":
+    {
+        "channels":
+        [
+            {
+                "name": "ABC",
+                "logo": "",
+                "programs":
+                [
+                    {
+                        "name": "Show a1",
+                        "description": "Show a1 Description...",
+                        "logo": "",
+                        "length": 120,
+                        "start": -30
+                    },
+                    {
+                        "name": "Show a2",
+                        "description": "Show a2 Description...",
+                        "logo": "",
+                        "length": 90,
+                        "start": 90
+                    },
+                    {
+                        "name": "Show a3",
+                        "description": "Show a3 Description...",
+                        "logo": "",
+                        "length": 60,
+                        "start": 180
+                    }
+                ]
+            },
+            {
+                "name": "CBS",
+                "logo": "",
+                "programs":
+                [
+                    {
+                        "name": "Show c1",
+                        "description": "Show c1 Description...",
+                        "logo": "",
+                        "length": 90,
+                        "start": 0
+                    },
+                    {
+                        "name": "Show c2",
+                        "description": "Show c2 Description...",
+                        "logo": "",
+                        "length": 30,
+                        "start": 90
+                    },
+                    {
+                        "name": "Show c3",
+                        "description": "Show c3 Description...",
+                        "logo": "",
+                        "length": 45,
+                        "start": 120
+                    }
+                ]
+            },
+            {
+                "name": "NBC",
+                "logo": "",
+                "programs":
+                [
+                    {
+                        "name": "Show n1",
+                        "description": "Show n1 Description...",
+                        "logo": "",
+                        "length": 30,
+                        "start": 0
+                    },
+                    {
+                        "name": "Show n2",
+                        "description": "Show n2 Description...",
+                        "logo": "",
+                        "length": 60,
+                        "start": 30
+                    },
+                    {
+                        "name": "Show n3",
+                        "description": "Show n3 Description...",
+                        "logo": "",
+                        "length": 90,
+                        "start": 90
+                    }
+                ]
+            }
+        ]
+    }
+}
