@@ -14,7 +14,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     src/main.cpp \
-    src/maincontroller.cpp
+    src/maincontroller.cpp \
+    src/fileio.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,6 +34,7 @@ HEADERS += \
     src/core/am_core.h \
     src/core/am_svc.h \
     src/core/am_ui.h \
-    src/maincontroller.h
+    src/maincontroller.h \
+    src/fileio.h
 
 DISTFILES +=

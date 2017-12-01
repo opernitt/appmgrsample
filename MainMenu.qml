@@ -124,7 +124,7 @@ Rectangle {
     // Show/hide the menu
     function showMenu(setMenuVisible) {
         if (setMenuVisible != menuVisible) {
-            menuContainer.y = setMenuVisible ? menuContainer.height/2 : -menuContainer.height
+            menuContainer.y = setMenuVisible ? menuContainer.height/4 : -menuContainer.height
             menuVisible = setMenuVisible
         }
     }

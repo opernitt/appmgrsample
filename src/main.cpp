@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include "maincontroller.h"
+#include "fileio.h"
 
 // Main entry point
 // Start-up sequence:
@@ -14,6 +15,9 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
+
+    // Register the FileIO type
+    qmlRegisterType<FileIO, 1>("FileIO", 1, 0, "FileIO");
 
     // Create the engine and load the main qml
     QQmlApplicationEngine engine;

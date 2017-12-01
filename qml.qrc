@@ -10,5 +10,6 @@
         <file>Settings.qml</file>
         <file>epgdata.json</file>
         <file>EpgItem.qml</file>
+        <file>EpgDetail.qml</file>
     </qresource>
 </RCC>
