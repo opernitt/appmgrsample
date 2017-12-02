@@ -14,6 +14,8 @@ Item {
         //height: 32
         anchors.fill: parent
         color: "blue"
+        border.width: 1
+        border.color: "lightblue"
 
         MouseArea {
             anchors.fill: parent
@@ -24,6 +26,11 @@ Item {
         }
 
         ColumnLayout {
+            anchors.fill: parent
+            anchors.topMargin: 1
+            anchors.bottomMargin: 1
+            anchors.leftMargin: 1
+            anchors.rightMargin: 1
             Text {
                 //anchors.fill: parent
                 width: parent.width
@@ -38,6 +45,7 @@ Item {
                 height: parent.height
                 wrapMode: Text.WordWrap
                 maximumLineCount: 2
+                font.pixelSize: 12
                 text: desc
                 color: "white"
                 //Component.onCompleted: print(x, y, width, height)
@@ -52,7 +60,7 @@ Item {
                 "desc: \"" + desc + "\";" +
                 "logo: \"" + logo + "\";" +
                 "}\n"
-        print(compSrc)
+        //print(compSrc)
 
         // Create the EPG Detail view
         Qt.createQmlObject(compSrc, mainContainer)

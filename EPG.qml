@@ -5,8 +5,9 @@ import FileIO 1.0
 // A sample UI (EPG Guide) populated from a Json file (qrc:/epgdata.json)
 //
 Item {
-    property var timeSlice: 5   // Each Grid unit represents 5 minutes
-    property var timeSpan: 120  // The Grid displays 120 minutes
+    property int timeSlice: 5   // Each Grid unit represents 5 minutes
+    property int timeSpan: 120  // The Grid displays 120 minutes
+    property int gridWidth: 540 // The grid width in pixels (programs without the logos)
 
     Rectangle {
         id: mainContainer
@@ -25,7 +26,7 @@ Item {
     // Link to the EPG data file within the resource
     FileIO {
         id: jsonFile
-        source: "qrc:/epgdata.json"
+        source: ""
         onError: console.log(msg)
     }
 
@@ -45,8 +46,8 @@ Item {
             "anchors.rightMargin: 20;" +
             "anchors.leftMargin: 20;" +
             "anchors.fill: parent;" +
-            "columnSpacing: 2;" +
-            "rowSpacing: 2;" +
+            "columnSpacing: 0;" +
+            "rowSpacing: 1;" +
             "rows: 10\;" +
             "columns: 25\n" + // 5 minute slices over 120 minutes, plus the logos
             "Text {" +
@@ -77,7 +78,7 @@ Item {
         var compSrc = "Text { height: 20; width: 140; text: qsTr(\"11:30\"); font.family: \"Helvetica\"; font.pointSize: 12; Layout.row: 1; Layout.column: 1; Layout.columnSpan: 6 }\n" +
                 "Text { height: 20; width: 140; text: qsTr(\"12:00\"); font.family: \"Helvetica\"; font.pointSize: 12; Layout.row: 1; Layout.column: 7; Layout.columnSpan: 6 }\n" +
                 "Text { height: 20; width: 140; text: qsTr(\"12:30\"); font.family: \"Helvetica\"; font.pointSize: 12; Layout.row: 1; Layout.column: 13; Layout.columnSpan: 6 }\n" +
-                "Text { height: 20; width: 140; text: qsTr(\"1:00\"); font.family: \"Helvetica\"; font.pointSize: 12; Layout.row: 1; Layout.column: 20; Layout.columnSpan: 6 }\n"
+                "Text { height: 20; width: 140; text: qsTr(\"1:00\"); font.family: \"Helvetica\"; font.pointSize: 12; Layout.row: 1; Layout.column: 19; Layout.columnSpan: 6 }\n"
         return compSrc
     }
 
@@ -86,31 +87,37 @@ Item {
 
         // Read the context of the Json data and parse it
         var raw = readJsonFile("qrc:/epgdata.json")
-        var jsonData = JSON.parse(raw);
-        //print(jsonData)
 
-        var epgdata = jsonData["epgdata"]
-        var stations = epgdata["stations"]
+        try {
+            var jsonData = JSON.parse(raw);
+            //print(jsonData)
 
-        // Add the station logos and programming
-        for (var cnt = 0; cnt < stations.length; cnt++) {
-            compSrc += addStation(cnt+2, stations[cnt]["logo"])
+            var epgdata = jsonData["epgdata"]
+            var stations = epgdata["stations"]
 
-            // Add the programs
-            var programs = stations[cnt]["programs"]
-            var column = 1
-            var columnSpan = 0
-            for (var cnt2 = 0; cnt2 < programs.length; cnt2++) {
-                var duration = programs[cnt2]["duration"]
-                var start = programs[cnt2]["start"]
-                var title = programs[cnt2]["title"]
-                var desc = programs[cnt2]["description"]
-                var logo = programs[cnt2]["logo"]
-                column += columnSpan
-                columnSpan = (start < 0) ? (duration + start) / timeSlice : duration / timeSlice
-                print(column, columnSpan, start, duration, title)
-                compSrc += addProgram(cnt+2, column, columnSpan, title, desc, logo)
+            // Add the station logos and programming
+            for (var cnt = 0; cnt < stations.length; cnt++) {
+                compSrc += addStation(cnt+2, stations[cnt]["logo"])
+
+                // Add the programs
+                var programs = stations[cnt]["programs"]
+                var column = 1
+                var columnSpan = 0
+                for (var cnt2 = 0; cnt2 < programs.length; cnt2++) {
+                    var duration = programs[cnt2]["duration"]
+                    var start = programs[cnt2]["start"]
+                    var title = programs[cnt2]["title"]
+                    var desc = programs[cnt2]["description"]
+                    var logo = programs[cnt2]["logo"]
+                    column += columnSpan
+                    columnSpan = (start < 0) ? (duration + start) / timeSlice : duration / timeSlice
+                    print(column, columnSpan, start, duration, title)
+                    compSrc += addProgram(cnt+2, column, columnSpan, title, desc, logo)
+                }
             }
+        }
+        catch (e) {
+            console.log(e)
         }
 
         // Return the completed Item(s)
@@ -151,7 +158,7 @@ Item {
         //print("width:", width, "span:", columnSpan)
 
         // Translate the columnSpan to a physical width
-        width = Math.round(560 * columnSpan / width)
+        width = Math.round(gridWidth * columnSpan / width)
 
         // Add the EPG Item
         var compSrc = "EpgItem {" +
@@ -168,13 +175,18 @@ Item {
         return compSrc
     }
 
-    // There is an issue loading the json file from qrc:/
-    // I am debugging this issue. QFile.open() fails and
-    // I see an error: Unable to open the file
-    // While I debug this, the file contents is hardcoded
+    // There was an issue loading the json file from qrc:/
+    // QFile.open() failed and I saw an error:
+    // Unable to open the file
+    // The fix is to use :/, without the qrc prefix
+    // See http://doc.qt.io/qt-5/resources.html
     function readJsonFile(url) {
-        //var data = jsonFile.read();
-        var data = '
+        jsonFile.setSource(url)
+        var data = "'"+jsonFile.read()+"'";
+
+        // Use canned Json data if the file could not be read
+        if (data.length)
+            data = '
 {
     "epgdata":
     {
@@ -299,9 +311,8 @@ Item {
             }
         ]
     }
-}
-'
-        //print (data)
+}'
+        print (data)
         return data
     }
 }

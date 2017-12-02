@@ -13,20 +13,21 @@ FileIO::FileIO(QObject *parent) :
 
 QString FileIO::read()
 {
-    if (mSource.isEmpty()){
+    if (mSource.isEmpty()) {
         emit error("source is empty");
         return QString();
     }
 
     QFile file(mSource);
     QString fileContent;
-    if ( file.open(QIODevice::ReadOnly) ) {
-        QString line;
-        QTextStream t( &file );
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+        QTextStream t(&file);
+        fileContent = t.readAll();
+        /*QString line;
         do {
             line = t.readLine();
-            fileContent += line;
-         } while (!line.isNull());
+            fileContent += "\n" + line;
+        } while (!line.isNull());*/
 
         file.close();
     } else {
@@ -49,6 +50,5 @@ bool FileIO::write(const QString& data)
     out << data;
 
     file.close();
-
     return true;
 }
