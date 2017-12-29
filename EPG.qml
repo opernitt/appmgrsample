@@ -86,7 +86,7 @@ Item {
         var compSrc = ""
 
         // Read the context of the Json data and parse it
-        var raw = readJsonFile("qrc:/epgdata.json")
+        var raw = readJsonFile(":/epgdata.json")
 
         try {
             var jsonData = JSON.parse(raw);
@@ -182,10 +182,11 @@ Item {
     // See http://doc.qt.io/qt-5/resources.html
     function readJsonFile(url) {
         jsonFile.setSource(url)
-        var data = "'"+jsonFile.read()+"'";
+        var data = jsonFile.read();
+        //print(data);
 
         // Use canned Json data if the file could not be read
-        if (data.length)
+        if (!data.length)
             data = '
 {
     "epgdata":
@@ -208,27 +209,6 @@ Item {
                         "logo": "http://img2.tvtome.com/i/tvp/sm/204274.jpg",
                         "duration": 60,
                         "start": -30
-                    },
-                    {
-                        "title": "Who Wants to Be a Millionaire - 11-30-2017",
-                        "description": "Contestants try to win up to $1 million by answering trivia questions, and they can use three different lifelines to assist them in their endeavors.",
-                        "logo": "http://img2.tvtome.com/i/tvp/sm/204274.jpg",
-                        "duration": 30,
-                        "start": 30
-                    },
-                    {
-                        "title": "Who Wants to Be a Millionaire - 11-30-2017",
-                        "description": "Contestants try to win up to $1 million by answering trivia questions, and they can use three different lifelines to assist them in their endeavors.",
-                        "logo": "http://img2.tvtome.com/i/tvp/sm/204274.jpg",
-                        "duration": 30,
-                        "start": 60
-                    },
-                    {
-                        "title": "The Chew - Homemade Holiday Hits",
-                        "description": "Michael Symon and Chris Meloni (\'Happy\') deliver a tasty holiday dish; Clinton Kelly is whipping up a dessert courtesy of a viewer; Mario Batali cooks with his dear friend, Lidia Bastianich.",
-                        "logo": "http://img2.tvtome.com/i/tvp/sm/81330.jpg",
-                        "duration": 60,
-                        "start": 30
                     }
                 ]
             },
@@ -243,20 +223,6 @@ Item {
                         "logo": "http://img2.tvtome.com/i/tvp/sm/100.jpg",
                         "duration": 60,
                         "start": -30
-                    },
-                    {
-                        "title": "KPIX 5 Noon News",
-                        "description": "Local news, sports and weather.",
-                        "logo": "http://img2.tvtome.com/i/tvp/sm/204274.jpg",
-                        "duration": 60,
-                        "start": 30
-                    },
-                    {
-                        "title": "The Bold and the Beautiful - 11-30-2017",
-                        "description": "Sally makes a surprise visit to her current crush because she wants to see where she and Liam stand; Bill warns Steffy of the huge price they both will pay if their secret is revealed.",
-                        "logo": "http://img2.tvtome.com/i/tvp/sm/1232.jpg",
-                        "duration": 60,
-                        "start": 90
                     }
                 ]
             },
@@ -271,20 +237,6 @@ Item {
                         "logo": "http://img2.tvtome.com/i/tvp/sm/204274.jpg",
                         "duration": 60,
                         "start": -30
-                    },
-                    {
-                        "title": "Access Hollywood Live - 11-30-2017",
-                        "description": "11-30-2017",
-                        "logo": "http://img2.tvtome.com/i/tvp/sm/204274.jpg",
-                        "duration": 60,
-                        "start": 30
-                    },
-                    {
-                        "title": "Days of Our Lives - 11-30-2017",
-                        "description": "11-30-2017",
-                        "logo": "http://img2.tvtome.com/i/tvp/sm/101.jpg",
-                        "duration": 60,
-                        "start": 90
                     }
                 ]
             },
@@ -312,7 +264,6 @@ Item {
         ]
     }
 }'
-        print (data)
         return data
     }
 }

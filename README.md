@@ -12,7 +12,7 @@ make
 
 This sample UI demonstrates various Qt features:
 * Mouse/key event handling
-* Signal/Slot signalling
+* Signal/Slot signaling
 * State changes
 * Dynamic loading (qrc:/)
 * Dynamic contents generation based on data (Json file with mock-up EPG data)
@@ -82,3 +82,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * The Qt Company
+

@@ -11,32 +11,33 @@ FileIO::FileIO(QObject *parent) :
 {
 }
 
+/*
+ * Read the specified text file and return its contents.
+ */
 QString FileIO::read()
 {
+    QString fileContent;
     if (mSource.isEmpty()) {
         emit error("source is empty");
-        return QString();
     }
+    else {
+        QFile file(mSource);
+        if (file.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+            QTextStream t(&file);
 
-    QFile file(mSource);
-    QString fileContent;
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text) ) {
-        QTextStream t(&file);
-        fileContent = t.readAll();
-        /*QString line;
-        do {
-            line = t.readLine();
-            fileContent += "\n" + line;
-        } while (!line.isNull());*/
-
-        file.close();
-    } else {
-        emit error("Unable to open the file");
-        return QString();
+            // Read the entire file and close it
+            fileContent = t.readAll();
+            file.close();
+        } else {
+            emit error("Unable to open the file");
+        }
     }
     return fileContent;
 }
 
+/*
+ * Write the provided daya to the specified text file.
+ */
 bool FileIO::write(const QString& data)
 {
     if (mSource.isEmpty())
